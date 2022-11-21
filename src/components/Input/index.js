@@ -1,4 +1,5 @@
 import React from "react";
+import { sendRequest } from "../actions/sendRequest.js";
 import "./index.scss";
 function Form({ inputsValue, setInputsValue, setIsShowResult }) {
   const handleChangeInputValue = (e) => {
@@ -6,9 +7,7 @@ function Form({ inputsValue, setInputsValue, setIsShowResult }) {
     setInputsValue({ ...inputsValue, [name]: value });
     console.log(e.target.value);
   };
-
   const handleSubmit = (submit) => submit.preventDefault();
-
   const handleClickButton = () => {
     if (
       inputsValue.firstname.trim().length &&
@@ -16,22 +15,14 @@ function Form({ inputsValue, setInputsValue, setIsShowResult }) {
       Number(inputsValue.age)
     ) {
       setIsShowResult(false);
-      fetch("https://636392ed37f2167d6f7ce510.mockapi.io/users", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(inputsValue),
-      });
+      sendRequest(inputsValue);
     } else {
       console.log("error");
     }
   };
-
   const handleShowButton = () => {
     setIsShowResult(false);
   };
-
   return (
     <>
       <div className="container">
